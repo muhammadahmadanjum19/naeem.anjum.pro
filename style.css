@@ -13,9 +13,9 @@
     --text-secondary: #A3A3A8;
     --text-muted: #6B6B73;
     
-    --teal-clinical: #D4AF37;   /* Champagne Gold Primary */
-    --cyan-medical: #E6C665;    /* Soft Warm Gold Accent */
-    --amber-dosimetry: #C5A028; /* Rich Bronze Gold */
+    --teal-clinical: #D4AF37;
+    --cyan-medical: #E6C665;
+    --amber-dosimetry: #C5A028;
     
     --font-body: 'Plus Jakarta Sans', sans-serif;
     --font-heading: 'Space Grotesk', sans-serif;
@@ -54,9 +54,6 @@
     --dp-glow-gradient: linear-gradient(135deg, #B8860B, #54524E, #966C02, #8C6200, #B8860B);
 }
 
-/* ==========================================================================
-   BASE RESET & CANVAS SETUP
-   ========================================================================== */
 * { 
     margin: 0; 
     padding: 0; 
@@ -82,9 +79,6 @@ body {
     opacity: 1;
 }
 
-/* ==========================================================================
-   WEBSITE OPENING ENTRY ANIMATION CURTAIN
-   ========================================================================== */
 #site-loader {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -123,9 +117,6 @@ body {
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ==========================================================================
-   HEADER & NAVIGATION
-   ========================================================================== */
 header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -188,9 +179,6 @@ header {
     box-shadow: 0 0 20px var(--amber-dosimetry);
 }
 
-/* ==========================================================================
-   LAYOUT CONTAINERS
-   ========================================================================== */
 .main-wrapper {
     position: relative;
     z-index: 1;
@@ -207,9 +195,6 @@ header {
     padding: 8.5rem 2rem 3rem;
 }
 
-/* ==========================================================================
-   INDEX.HTML COMPONENTS
-   ========================================================================== */
 .hero-center {
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
@@ -533,9 +518,6 @@ header {
     box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
 }
 
-/* ==========================================================================
-   PHYSICS.HTML COMPONENTS
-   ========================================================================== */
 .section-header { margin-bottom: 1.75rem; }
 
 .section-tag {
@@ -782,9 +764,6 @@ header {
     border-color: var(--teal-clinical);
 }
 
-/* ==========================================================================
-   MODAL OVERLAY & POPUP STYLING
-   ========================================================================== */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -868,7 +847,6 @@ header {
     line-height: 1.6; margin-bottom: 1.5rem;
 }
 
-/* Lightened BibTeX citation box for enhanced clarity and contrast */
 .modal-bibtex-box {
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
@@ -897,9 +875,6 @@ header {
     transform: scale(1.03);
 }
 
-/* ==========================================================================
-   FOOTER SECTION
-   ========================================================================== */
 footer {
     max-width: var(--max-width);
     margin: 0 auto;
