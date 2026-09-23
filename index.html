@@ -17,6 +17,11 @@
 </head>
 <body>
 
+    <!-- Website Opening Entry Animation Loader -->
+    <div id="site-loader">
+        <div class="loader-spinner"></div>
+    </div>
+
     <canvas id="physics-canvas"></canvas>
 
     <header>
@@ -34,7 +39,7 @@
         <div class="hero-center">
             <div class="profile-img-container">
                 <div class="meta-glow-bg"></div>
-                <img src="https://profiles.bzu.edu.pk/uploads/images/692dafee9f3d9.png" onError="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'180\' height=\'180\' viewBox=\'0 0 180 180\'><rect width=\'100%\' height=\'100%\' fill=\'%2316161A\'/><text x=\'50%\' y=\'55%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Space Grotesk, sans-serif\' font-size=\'48\' font-weight=\'700\' fill=\'%23D4AF37\'>NA</text></svg>';" alt="Prof. Dr. Muhammad Naeem Anjum" class="profile-img">
+                <img src="dr-naeem-dp.jpg" alt="Prof. Dr. Muhammad Naeem Anjum" class="profile-img">
             </div>
             
             <h1 class="hero-title">Prof. Dr. Muhammad Naeem Anjum</h1>
@@ -142,7 +147,15 @@
     </footer>
 
     <script>
-        // Theme Toggle Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('site-loader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                }, 250);
+            }
+        });
+
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
         
@@ -165,7 +178,6 @@
             themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
 
-        // Dynamic Particle Network Canvas
         const canvas = document.getElementById('physics-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, particles = [];
@@ -206,8 +218,6 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
-            // Fetch live styles dynamically frame-by-frame
             const style = getComputedStyle(document.documentElement);
             const particleColor = style.getPropertyValue('--particle-color').trim();
             const lineColor = style.getPropertyValue('--line-color').trim();
@@ -235,7 +245,6 @@
         }
         animate();
 
-        // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
