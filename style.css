@@ -5,7 +5,7 @@
 :root {
     --bg-base: #0B0B0C;
     --bg-surface: rgba(22, 22, 26, 0.65);
-    --bg-card: rgba(30, 30, 35, 0.7);
+    --bg-card: rgba(38, 38, 45, 0.75);
     --border-subtle: rgba(212, 175, 55, 0.15);
     --border-glow: rgba(212, 175, 55, 0.35);
     
@@ -31,24 +31,25 @@
 }
 
 [data-theme="light"] {
-    --bg-base: #F8F7F4;
-    --bg-surface: rgba(255, 255, 255, 0.85);
-    --bg-card: #FFFFFF;
-    --border-subtle: rgba(180, 140, 20, 0.15);
-    --border-glow: rgba(180, 140, 20, 0.35);
+    --bg-base: #EBE8E1; 
+    --bg-surface: rgba(215, 208, 196, 0.88); 
+    --bg-card: rgba(235, 228, 218, 0.92);
+    --border-subtle: rgba(180, 140, 20, 0.3);
+    --border-glow: rgba(180, 140, 20, 0.5);
     
     --text-main: #1A1918;
-    --text-secondary: #54524E;
-    --text-muted: #8C8882;
+    --text-secondary: #4A4844;
+    --text-muted: #78746E;
     
     --teal-clinical: #B8860B;
     --cyan-medical: #966C02;
     --amber-dosimetry: #8C6200;
     
-    --ios-glass-bg: rgba(248, 247, 244, 0.75);
-    --ios-glass-border: rgba(180, 140, 20, 0.18);
-    --particle-color: rgba(184, 134, 11, 0.25);
-    --line-color: rgba(184, 134, 11, 0.08);
+    --ios-glass-bg: rgba(225, 220, 210, 0.82);
+    --ios-glass-border: rgba(180, 140, 20, 0.25);
+    
+    --particle-color: rgba(120, 80, 0, 0.75);
+    --line-color: rgba(120, 80, 0, 0.28);
 
     --dp-glow-gradient: linear-gradient(135deg, #B8860B, #54524E, #966C02, #8C6200, #B8860B);
 }
@@ -78,6 +79,48 @@ body {
     width: 100vw; height: 100vh;
     pointer-events: none;
     z-index: 0;
+    opacity: 1;
+}
+
+/* ==========================================================================
+   WEBSITE OPENING ENTRY ANIMATION CURTAIN
+   ========================================================================== */
+#site-loader {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg-base);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#site-loader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-spinner {
+    width: 50px; height: 50px;
+    border: 3px solid var(--border-subtle);
+    border-top: 3px solid var(--teal-clinical);
+    border-radius: 50%;
+    animation: spinLoader 0.8s linear infinite;
+}
+
+@keyframes spinLoader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.main-wrapper, header, footer {
+    animation: siteEntryFade 0.9s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes siteEntryFade {
+    0% { opacity: 0; transform: translateY(15px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ==========================================================================
@@ -168,8 +211,27 @@ header {
    INDEX.HTML COMPONENTS
    ========================================================================== */
 .hero-center {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 28px;
+    padding: 3rem 2rem;
     text-align: center;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                backdrop-filter 0.4s ease, 
+                border-color 0.4s ease, 
+                box-shadow 0.4s ease;
+}
+
+.hero-center:hover {
+    transform: scale(1.015);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-color: var(--teal-clinical);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25), 0 0 25px rgba(212, 175, 55, 0.12);
 }
 
 .profile-img-container {
@@ -237,17 +299,17 @@ header {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .btn-cv-compact {
     background: linear-gradient(135deg, #2A2A30, #141418);
     border: 1px solid var(--border-glow);
-    color: var(--text-main);
-    padding: 0.55rem 1.25rem;
+    color: #FDFBF7 !important;
+    padding: 0.65rem 1.5rem;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -260,6 +322,7 @@ header {
     transform: scale(1.04);
     border-color: var(--teal-clinical);
     box-shadow: 0 8px 22px rgba(212, 175, 55, 0.25);
+    color: #FFFFFF !important;
 }
 
 .groups-container {
@@ -274,8 +337,8 @@ header {
     border: 1px solid var(--border-subtle);
     border-radius: 28px;
     padding: 1.75rem 2rem;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     position: relative;
     overflow: hidden;
@@ -289,8 +352,8 @@ header {
 
 @keyframes advancedCardPulse {
     0% { 
-        backdrop-filter: blur(10px); 
-        -webkit-backdrop-filter: blur(10px); 
+        backdrop-filter: blur(12px); 
+        -webkit-backdrop-filter: blur(12px); 
         border-color: rgba(212, 175, 55, 0.15);
         box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
@@ -301,8 +364,8 @@ header {
         box-shadow: 0 15px 35px rgba(212, 175, 55, 0.12);
     }
     100% { 
-        backdrop-filter: blur(10px); 
-        -webkit-backdrop-filter: blur(10px); 
+        backdrop-filter: blur(12px); 
+        -webkit-backdrop-filter: blur(12px); 
         border-color: rgba(212, 175, 55, 0.15);
         box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
@@ -345,7 +408,7 @@ header {
 }
 
 .contact-card-btn {
-    background: rgba(212, 175, 55, 0.03);
+    background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 50px;
     padding: 0.9rem 1.5rem;
@@ -357,6 +420,7 @@ header {
     outline: none;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -407,14 +471,13 @@ header {
     border-radius: 30px;
     padding: 3rem 2.5rem;
     text-align: center;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.08);
     position: relative;
     overflow: hidden;
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
                 backdrop-filter 0.4s ease, 
-                -webkit-backdrop-filter 0.4s ease, 
                 border-color 0.4s ease, 
                 box-shadow 0.4s ease;
     animation: advancedCardPulse 6s ease-in-out infinite;
@@ -493,9 +556,15 @@ header {
 
 .metrics-grid-clean {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
     margin-bottom: 3.5rem;
+}
+
+@media (max-width: 900px) {
+    .metrics-grid-clean {
+        grid-template-columns: 1fr;
+    }
 }
 
 .metric-card-clean {
@@ -504,8 +573,8 @@ header {
     border-radius: 20px;
     padding: 1.5rem 1.25rem;
     text-align: center;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     transition: all 0.3s ease;
 }
 
@@ -543,7 +612,7 @@ header {
     border: 1px solid var(--border-subtle);
     border-radius: 20px;
     padding: 1.5rem 1.75rem;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
     transition: all 0.3s ease;
 }
 
@@ -585,7 +654,7 @@ header {
     border: 1px solid var(--border-subtle);
     border-radius: 20px;
     padding: 1.5rem;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
 }
 
 .supervision-title {
@@ -633,7 +702,7 @@ header {
     grid-template-columns: 200px 1fr;
     gap: 1.5rem;
     align-items: center;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
     transition: transform 0.3s ease;
 }
 
@@ -667,7 +736,7 @@ header {
     grid-template-columns: 70px 1fr;
     gap: 1.25rem;
     align-items: flex-start;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
     cursor: pointer;
     transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -799,12 +868,13 @@ header {
     line-height: 1.6; margin-bottom: 1.5rem;
 }
 
+/* Lightened BibTeX citation box for enhanced clarity and contrast */
 .modal-bibtex-box {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 12px; padding: 0.85rem 1rem;
     font-family: monospace; font-size: 0.8rem;
-    color: var(--cyan-medical);
+    color: var(--text-main);
     overflow-x: auto; margin-bottom: 1.5rem;
     white-space: pre-wrap;
 }
