@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics & Research Dossier | Prof. Dr. M. Naeem Anjum</title>
     
+    <!-- PWA Manifest Link -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#D4AF37">
     
@@ -15,6 +16,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Website Opening Entry Animation Loader -->
+    <div id="site-loader">
+        <div class="loader-spinner"></div>
+    </div>
 
     <canvas id="physics-canvas"></canvas>
 
@@ -43,6 +49,10 @@
             <div class="metric-card-clean">
                 <div class="metric-number">4 / 68</div>
                 <div class="metric-title">PhDs & M.Phils Supervised</div>
+            </div>
+            <div class="metric-card-clean">
+                <div class="metric-number">10</div>
+                <div class="metric-title">Academic Divisions</div>
             </div>
         </div>
 
@@ -231,15 +241,31 @@
     </footer>
 
     <script>
+        // Website Entry Opening Animation Fader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('site-loader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                }, 250);
+            }
+        });
+
         // Modal Handlers
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         window.onclick = function(event) {
@@ -247,30 +273,32 @@
                 event.target.classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
-        }
+        };
 
-        // Theme Toggle Handler
+        // Theme Toggle Logic
         const themeToggleBtn = document.getElementById('themeToggle');
-        const themeIcon = themeToggleBtn.querySelector('i');
+        const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
         
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        updateToggleIcon(savedTheme);
+        if (themeIcon) updateToggleIcon(savedTheme);
 
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateToggleIcon(newTheme);
-        });
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                if (themeIcon) updateToggleIcon(newTheme);
+            });
+        }
 
         function updateToggleIcon(theme) {
             themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
 
-        // Physics Canvas Particle Animation
+        // Dynamic Particle Network Canvas
         const canvas = document.getElementById('physics-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, particles = [];
@@ -286,43 +314,51 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
+                this.vx = (Math.random() - 0.5) * 0.45;
+                this.vy = (Math.random() - 0.5) * 0.45;
                 this.radius = Math.random() * 1.5 + 1;
             }
             update() {
-                this.x += this.vx; this.y += this.vy;
+                this.x += this.vx; 
+                this.y += this.vy;
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
             }
-            draw() {
+            draw(color) {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+                ctx.fillStyle = color;
                 ctx.fill();
             }
         }
 
         const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
-        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--line-color').trim();
+            
+            const style = getComputedStyle(document.documentElement);
+            const particleColor = style.getPropertyValue('--particle-color').trim();
+            const lineColor = style.getPropertyValue('--line-color').trim();
             
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
-                particles[i].draw();
+                particles[i].draw(particleColor);
+                
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
+                    
                     if (distance < 130) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.strokeStyle = lineColor;
-                        ctx.lineWidth = 0.8;
+                        ctx.lineWidth = 0.85;
                         ctx.stroke();
                     }
                 }
@@ -331,7 +367,7 @@
         }
         animate();
 
-        // Silent Service Worker Registration
+        // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
