@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Portfolio | Prof. Dr. M. Naeem Anjum</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="physics-canvas"></canvas>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="brand-name">Executive Dossier</a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+
+        <div class="hero-center">
+            <div class="profile-img-container">
+                <div class="meta-glow-bg"></div>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" alt="Prof. Dr. M. Naeem Anjum" class="profile-img">
+            </div>
+            <h1 class="hero-title">Prof. Dr. M. Naeem Anjum</h1>
+            <div class="hero-subtitle">Professor & Director | Institute of Physics, BZU</div>
+            
+            <div class="hero-actions">
+                <a href="physics.html" class="btn-cv-compact">
+                    <i class="fa-solid fa-atom"></i> View Research Dossier
+                </a>
+            </div>
+        </div>
+
+        <div class="groups-container">
+            <!-- Academic Outreach -->
+            <div class="group-card">
+                <div class="group-header">
+                    <i class="fa-solid fa-university"></i>
+                    <span>Academic & Institutional Contact</span>
+                </div>
+                <div class="group-buttons-grid">
+                    <a href="mailto:naeem.anjum@bzu.edu.pk" class="contact-card-btn">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="contact-val">naeem.anjum@bzu.edu.pk</div>
+                    </a>
+                    <a href="https://www.bzu.edu.pk" target="_blank" class="contact-card-btn">
+                        <div class="contact-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="contact-val">Institute of Physics, BZU</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scholarly Profiles -->
+            <div class="group-card">
+                <div class="group-header">
+                    <i class="fa-solid fa-scroll"></i>
+                    <span>Scholarly Profiles & Identifiers</span>
+                </div>
+                <div class="group-buttons-grid">
+                    <a href="https://scholar.google.com" target="_blank" class="contact-card-btn">
+                        <div class="contact-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="contact-val">Google Scholar Profile</div>
+                    </a>
+                    <a href="https://orcid.org" target="_blank" class="contact-card-btn">
+                        <div class="contact-icon"><i class="fa-solid fa-id-badge"></i></div>
+                        <div class="contact-val">ORCID iD Profile</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portal Navigation Banner -->
+        <div class="navigation-banner">
+            <h2>Explore Scholarly & Research Dossier</h2>
+            <p>Access peer-reviewed literature, Postgraduate research supervision, academic impact metrics, and career trajectory.</p>
+            <a href="physics.html" class="btn-large">
+                <i class="fa-solid fa-microscope"></i> Launch Research Dossier
+            </a>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-text">
+            <div>© 2026 <span class="author-highlight">Muhammad Ahmad Anjum</span>. All rights reserved.</div>
+            <div>Designed & Developed by <span class="author-highlight">Muhammad Ahmad Anjum</span></div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateToggleIcon(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        // Physics Canvas Particle Background
+        const canvas = document.getElementById('physics-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 1.5 + 1;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+                ctx.fill();
+            }
+        }
+
+        const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--line-color').trim();
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = lineColor;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Silent Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered.'))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
